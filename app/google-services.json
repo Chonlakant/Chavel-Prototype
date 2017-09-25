@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "670661025646",
+    "firebase_url": "https://chavel-2a322.firebaseio.com",
+    "project_id": "chavel-2a322",
+    "storage_bucket": "chavel-2a322.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670661025646:android:6d5e5296507acb8e",
+        "android_client_info": {
+          "package_name": "com.google.firebase.quickstart.database"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670661025646-msn833buauuakbj7u1ns9re98q23bpnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.firebase.quickstart.database",
+            "certificate_hash": "b12c0e6325fcd7ea0673e69fc98afff1f40cb79a"
+          }
+        },
+        {
+          "client_id": "670661025646-pv82hi81sak9892u4hu62m9316gu8pbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8r_SGXaBRQGPP8kFApcZJWqYS1mRU6VU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670661025646-pv82hi81sak9892u4hu62m9316gu8pbk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
