@@ -267,14 +267,10 @@ public class NewPostActivity extends BaseActivity implements
         mDatabase.updateChildren(childUpdates);
     }
 
-
-
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
-
 
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
