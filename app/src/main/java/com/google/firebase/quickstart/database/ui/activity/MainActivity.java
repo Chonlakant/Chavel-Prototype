@@ -98,6 +98,9 @@ public class  MainActivity extends BaseActivity {
             startActivity(new Intent(this, SignInActivity.class));
             finish();
             return true;
+        } else if(i == R.id.action_maps){
+            startActivity(new Intent(this, MapsSwipeActivity.class));
+            return true;
         } else {
             return super.onOptionsItemSelected(item);
         }

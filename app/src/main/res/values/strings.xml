@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Firebase Database (Maps+)</string>
+    <string name="app_name">Chavel (Maps+)</string>
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
           AIzaSyBR06JQMaQrd_Fnqn643-IroL_vL_bg9LI
@@ -18,9 +18,9 @@
     <string name="hint_password">password</string>
     <string name="hint_email">email</string>
     <string name="sign_in">Sign In</string>
-    <string name="heading_recent">Recent</string>
-    <string name="heading_my_posts">My Posts</string>
-    <string name="heading_my_top_posts">My Star</string>
+    <string name="heading_recent">Home</string>
+    <string name="heading_my_posts">My Route</string>
+    <string name="heading_my_top_posts">My Favorite</string>
 
     <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
     <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>

@@ -53,7 +53,7 @@ public abstract class PostListFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        mCommentAdapter.cleanupListener();
+//        mCommentAdapter.cleanupListener();
     }
 
     @Override

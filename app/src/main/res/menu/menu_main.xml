@@ -4,6 +4,12 @@
     tools:context=".ui.activity.MainActivity">
 
     <item
+        android:id="@+id/action_maps"
+        android:title="MapsSwipeActivity"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_logout"
         android:title="@string/menu_logout"
         android:visible="true"
