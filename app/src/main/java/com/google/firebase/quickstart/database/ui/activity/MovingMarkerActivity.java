@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.database;
+package com.google.firebase.quickstart.database.ui.activity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -51,6 +51,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.adapter.PlaceAutocompleteAdapter;
 import com.google.firebase.quickstart.database.util.IsOnlineUtil;
 

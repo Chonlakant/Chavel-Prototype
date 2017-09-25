@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.database;
+package com.google.firebase.quickstart.database.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;

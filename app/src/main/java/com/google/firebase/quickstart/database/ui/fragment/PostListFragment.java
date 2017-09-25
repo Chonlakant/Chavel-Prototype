@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.database.fragment;
+package com.google.firebase.quickstart.database.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,16 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.quickstart.database.PostDetailActivity;
 import com.google.firebase.quickstart.database.R;
-import com.google.firebase.quickstart.database.models.Comment;
 import com.google.firebase.quickstart.database.models.Post;
+import com.google.firebase.quickstart.database.ui.activity.PostCommentsActivity;
+import com.google.firebase.quickstart.database.ui.activity.PostDetailActivity;
 import com.google.firebase.quickstart.database.viewholder.FeedViewHolder;
-import com.google.firebase.quickstart.database.viewholder.PostViewHolder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class PostListFragment extends Fragment {
 
@@ -49,7 +43,7 @@ public abstract class PostListFragment extends Fragment {
 
     public PostListFragment() {}
 
-    PostDetailActivity.CommentAdapter mCommentAdapter;
+    PostCommentsActivity.CommentAdapter mCommentAdapter;
 
     @Override
     public void onStart() {
@@ -118,7 +112,7 @@ public abstract class PostListFragment extends Fragment {
 //                }
 
                 // Bind Post to ViewHolder, setting OnClickListener for the star button
-                viewHolder.bindToPost(model, new View.OnClickListener() {
+                viewHolder.bindToPost(mPostKey,getContext(),model, new View.OnClickListener() {
                     @Override
                     public void onClick(View starView) {
                         // Need to write to both places the post is stored
@@ -142,19 +136,21 @@ public abstract class PostListFragment extends Fragment {
 //                        .child("posts").child(mPostKey);
                 mCommentsReference = mDatabase.child("post-comments").child(mPostKey);
 
-                List<Comment> mComments = new ArrayList<>();
-
-                //mCommentsReference.addChildEventListener(childEventListener);
-
-                Log.e(TAG,mCommentsReference.toString());
-
                 mCommentsRecycler = viewHolder.comments_recycler;
                 mCommentsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-                mCommentAdapter = new PostDetailActivity.CommentAdapter(getContext(), mCommentsReference);
+                mCommentAdapter = new PostCommentsActivity.CommentAdapter(getContext(), mCommentsReference);
                 mCommentsRecycler.setAdapter(mCommentAdapter);
-
                 mCommentAdapter.notifyDataSetChanged();
+
+//                mCommentsRecycler.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent intent = new Intent(getActivity(), PostCommentsActivity.class);
+//                        intent.putExtra(PostCommentsActivity.EXTRA_POST_KEY, mPostKey);
+//                        startActivity(intent);
+//                    }
+//                });
 
 
 

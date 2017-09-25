@@ -1,6 +1,5 @@
-package com.google.firebase.quickstart.database;
+package com.google.firebase.quickstart.database.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -28,7 +26,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.firebase.database.DataSnapshot;
@@ -36,11 +33,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.adapter.PlaceAutocompleteAdapter;
 import com.google.firebase.quickstart.database.models.Post;
 import com.google.firebase.quickstart.database.models.User;
 import com.google.firebase.quickstart.database.util.PermissionUtils;
-import com.google.firebase.quickstart.database.widget.TouchableWrapper;
 
 import java.util.HashMap;
 import java.util.Map;

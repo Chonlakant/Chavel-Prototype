@@ -5,8 +5,7 @@ import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
-import com.google.firebase.quickstart.database.BaseActivity;
-import com.google.firebase.quickstart.database.NewPostActivity;
+import com.google.firebase.quickstart.database.ui.activity.BaseActivity;
 
 /**
  * Created by skyrreasure on 1/4/16.

@@ -1,25 +1,19 @@
-package com.google.firebase.quickstart.database;
+package com.google.firebase.quickstart.database.ui.activity;
 
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,23 +36,27 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.quickstart.database.models.User;
-import com.google.firebase.quickstart.database.models.Comment;
+import com.google.firebase.quickstart.database.R;
+import com.google.firebase.quickstart.database.constants.NetworkConstants;
+import com.google.firebase.quickstart.database.controller.BaseInterface;
+import com.google.firebase.quickstart.database.models.AddressModel;
 import com.google.firebase.quickstart.database.models.Post;
 import com.google.firebase.quickstart.database.util.IsOnlineUtil;
 import com.google.firebase.quickstart.database.util.PermissionUtils;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
-public class PostDetailActivity extends BaseActivity implements View.OnClickListener,OnMapReadyCallback,RoutingListener {
+public class PostDetailActivity extends BaseActivity implements OnMapReadyCallback,RoutingListener,BaseInterface {
 
     public static final String EXTRA_POST_KEY = "post_key";
 
@@ -67,17 +65,9 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private DatabaseReference mPostReference;
-    private DatabaseReference mCommentsReference;
     private ValueEventListener mPostListener;
     private String mPostKey;
-    private CommentAdapter mCommentAdapter;
 
-    private TextView mAuthorView;
-    private TextView mTitleView;
-    private TextView mBodyView;
-    private EditText mCommentField;
-    private Button mCommentButton;
-    private RecyclerView mCommentsRecycler;
 
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
@@ -93,9 +83,9 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private LatLng loc3 = new LatLng(37.7814432, -122.4460177);
     private LatLng loc4 = new LatLng(37.801326, -122.424520);
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+    private static final int[] COLORS = new int[]{R.color.primary_dark, R.color.primary, R.color.primary_light, R.color.accent, R.color.primary_dark_material_light};
 
+    private void addSampleMarkers(GoogleMap googleMap) {
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(camera, 13));
         googleMap.addMarker(new MarkerOptions().position(loc2));
         googleMap.addMarker(new MarkerOptions().position(loc3));
@@ -106,6 +96,12 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         googleMap.moveCamera(center);
         googleMap.animateCamera(zoom);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        //addSampleMarkers(googleMap);
 
         mMap = googleMap;
 
@@ -115,26 +111,79 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         mMap.setMyLocationEnabled(true);
 
-        //route();
-
-
         if (IsOnlineUtil.Operations.isOnline(this)) {
-            route();
             hideKeyboard();
+            mAddressModel.fetchAddressFromServer();
         } else {
             Toast.makeText(this, "No internet connectivity", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void route() {
+    public void route(LatLng... points) {
         Routing routing = new Routing.Builder()
                 .travelMode(AbstractRouting.TravelMode.WALKING)
                 .withListener(this)
                 .alternativeRoutes(true)
-                .waypoints(loc2, loc3,loc4)
+                .waypoints(points)
                 .build();
         routing.execute();
+    }
+
+    private Map<String, AddressModel> mDealMap = new HashMap<>();
+    public List<Marker> mMarkerList = new ArrayList<>();
+    private List<AddressModel> myDealsList = new ArrayList<AddressModel>();
+    private List<Polyline> polylines = new ArrayList<Polyline>();
+    private List<LatLng> latLngsList = new ArrayList<LatLng>();
+
+    @Override
+    public void handleNetworkCall(Object object, int requestCode) {
+        if (requestCode == NetworkConstants.ADDRESS_REQUEST) {
+            if (object instanceof ArrayList) {
+                myDealsList = new ArrayList<>();
+                myDealsList = (ArrayList) object;
+
+                for (int j = 0; j < myDealsList.size(); j++) {
+                    LatLng newLatLngTemp = new LatLng(Double.parseDouble(myDealsList.get(j).getLatitude()), Double.parseDouble(myDealsList.get(j).getLongitude()));
+
+                    MarkerOptions options = new MarkerOptions();
+                    IconGenerator iconFactory = new IconGenerator(PostDetailActivity.this);
+                    iconFactory.setRotation(0);
+                    iconFactory.setBackground(null);
+
+                    View view = View.inflate(PostDetailActivity.this, R.layout.map_marker_text, null);
+                    TextView tvVendorTitle;
+                    tvVendorTitle = (TextView) view.findViewById(R.id.tv_vendor_title);
+                    tvVendorTitle.setText(myDealsList.get(j).getRating());
+                    iconFactory.setContentView(view);
+
+                    options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(myDealsList.get(j).getRating())));
+                    options.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
+                    options.position(newLatLngTemp);
+                    options.snippet(String.valueOf(j));
+
+                    latLngsList.add(newLatLngTemp);
+
+                    Marker mapMarker = mMap.addMarker(options);
+                    mMarkerList.add(mapMarker);
+                    mDealMap.put(myDealsList.get(j).getRating(), myDealsList.get(j));
+
+                }
+
+                LatLng[] markerArray = latLngsList.toArray(new LatLng[0]);
+                //LatLng[] array = latLngsList.stream().toArray(LatLng[]::new);
+                route(markerArray);
+
+                if (myDealsList.size() > 0) {
+                    LatLng latlngOne = new LatLng(Double.parseDouble(myDealsList.get(0).getLatitude()), Double.parseDouble(myDealsList.get(0).getLongitude()));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngOne, 16));
+                }
+
+                //mAdapter.notifyDataSetChanged();
+
+
+            }
+        }
     }
 
     private TheAnimator animator = new TheAnimator();
@@ -152,6 +201,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         }
     };
 
+
     int currentPt;
     GoogleMap.CancelableCallback MyCancelableCallback =
             new GoogleMap.CancelableCallback() {
@@ -166,7 +216,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
 
                     if (++currentPt < markers.size()) {
-
 
                         float targetBearing = bearingBetweenLatLngs(mMap.getCameraPosition().target, markers.get(currentPt).getPosition());
 
@@ -201,10 +250,28 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             };
 
 
+    private FloatingActionButton fab;
+    private AddressModel mAddressModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+
+        fab = findViewById(R.id.fab_walk);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animator.startAnimation(false);
+            }
+        });
+
+        // Initialize Views
+        mAuthorView = findViewById(R.id.post_author);
+        mTitleView = findViewById(R.id.post_title);
+        mBodyView = findViewById(R.id.post_body);
+
+        mAddressModel = new AddressModel(this,this);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -221,80 +288,12 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         // Initialize Database
         mPostReference = FirebaseDatabase.getInstance().getReference()
                 .child("posts").child(mPostKey);
-        mCommentsReference = FirebaseDatabase.getInstance().getReference()
-                .child("post-comments").child(mPostKey);
-
-        // Initialize Views
-        mAuthorView = findViewById(R.id.post_author);
-        mTitleView = findViewById(R.id.post_title);
-        mBodyView = findViewById(R.id.post_body);
-        mCommentField = findViewById(R.id.field_comment_text);
-        mCommentButton = findViewById(R.id.button_post_comment);
-        mCommentsRecycler = findViewById(R.id.recycler_comments);
-
-        mCommentButton.setOnClickListener(this);
-        mCommentsRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         handler.postDelayed(runner, random.nextInt(2000));
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return;
         }
-        //LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//        locationManager.requestLocationUpdates(
-//                LocationManager.NETWORK_PROVIDER, 5000, 0,
-//                new LocationListener() {
-//                    @Override
-//                    public void onLocationChanged(Location location) {
-//
-//                        mLatitude = location.getLatitude();
-//                        mLongitude = location.getLongitude();
-//                    }
-//
-//                    @Override
-//                    public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onProviderEnabled(String provider) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onProviderDisabled(String provider) {
-//
-//                    }
-//                });
-//
-//
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-//                3000, 0, new LocationListener() {
-//                    @Override
-//                    public void onLocationChanged(Location location) {
-//
-//                        mLatitude = location.getLatitude();
-//                        mLongitude = location.getLongitude();
-//
-//                    }
-//
-//                    @Override
-//                    public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onProviderEnabled(String provider) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onProviderDisabled(String provider) {
-//
-//                    }
-//                });
-
     }
 
     private void enableMyLocation() {
@@ -309,12 +308,13 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    private TextView mAuthorView;
+    private TextView mTitleView;
+    private TextView mBodyView;
+
     @Override
     public void onStart() {
         super.onStart();
-
-        // Add value event listener to the post
-        // [START post_value_event_listener]
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -338,14 +338,9 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             }
         };
         mPostReference.addValueEventListener(postListener);
-        // [END post_value_event_listener]
 
         // Keep copy of post listener so we can remove it when app stops
         mPostListener = postListener;
-
-        // Listen for comments
-        mCommentAdapter = new CommentAdapter(this, mCommentsReference);
-        mCommentsRecycler.setAdapter(mCommentAdapter);
     }
 
     @Override
@@ -358,44 +353,9 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         }
 
         // Clean up comments listener
-        mCommentAdapter.cleanupListener();
+
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.button_post_comment) {
-            postComment();
-        }
-    }
-
-    private void postComment() {
-        final String uid = getUid();
-        FirebaseDatabase.getInstance().getReference().child("users").child(uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user information
-                        User user = dataSnapshot.getValue(User.class);
-                        String authorName = user.username;
-
-                        // Create new comment object
-                        String commentText = mCommentField.getText().toString();
-                        Comment comment = new Comment(uid, authorName, commentText);
-
-                        // Push the comment, it will appear in the list
-                        mCommentsReference.push().setValue(comment);
-
-                        // Clear the field
-                        mCommentField.setText(null);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
@@ -411,9 +371,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     public void onRoutingStart() {
 
     }
-
-    private List<Polyline> polylines;
-    private static final int[] COLORS = new int[]{R.color.primary_dark, R.color.primary, R.color.primary_light, R.color.accent, R.color.primary_dark_material_light};
 
 
     @Override
@@ -453,157 +410,28 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             marker.setVisible(false);
         }
 
-        animator.startAnimation(false);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+//the include method will calculate the min and max bound.
+        for(Marker marker : mMarkerList) {
+            builder.include(marker.getPosition());
+        }
+
+        LatLngBounds bounds = builder.build();
+
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.20); // offset from edges of the map 20% of screen
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+        mMap.animateCamera(cu);
+
+        //animator.startAnimation(false);
 
     }
 
     @Override
     public void onRoutingCancelled() {
-
-    }
-
-    public static class CommentViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView authorView;
-        public TextView bodyView;
-
-        public CommentViewHolder(View itemView) {
-            super(itemView);
-
-            authorView = itemView.findViewById(R.id.comment_author);
-            bodyView = itemView.findViewById(R.id.comment_body);
-        }
-    }
-
-    public static class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
-
-        private Context mContext;
-        private DatabaseReference mDatabaseReference;
-        private ChildEventListener mChildEventListener;
-
-        private List<String> mCommentIds = new ArrayList<>();
-        private List<Comment> mComments = new ArrayList<>();
-
-        public ChildEventListener childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-
-                // A new comment has been added, add it to the displayed list
-                Comment comment = dataSnapshot.getValue(Comment.class);
-
-                // [START_EXCLUDE]
-                // Update RecyclerView
-                mCommentIds.add(dataSnapshot.getKey());
-                mComments.add(comment);
-                notifyItemInserted(mComments.size() - 1);
-                // [END_EXCLUDE]
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-                Comment newComment = dataSnapshot.getValue(Comment.class);
-                String commentKey = dataSnapshot.getKey();
-
-                // [START_EXCLUDE]
-                int commentIndex = mCommentIds.indexOf(commentKey);
-                if (commentIndex > -1) {
-                    // Replace with the new data
-                    mComments.set(commentIndex, newComment);
-
-                    // Update the RecyclerView
-                    notifyItemChanged(commentIndex);
-                } else {
-                    Log.w(TAG, "onChildChanged:unknown_child:" + commentKey);
-                }
-                // [END_EXCLUDE]
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
-                String commentKey = dataSnapshot.getKey();
-
-                // [START_EXCLUDE]
-                int commentIndex = mCommentIds.indexOf(commentKey);
-                if (commentIndex > -1) {
-                    // Remove data from the list
-                    mCommentIds.remove(commentIndex);
-                    mComments.remove(commentIndex);
-
-                    // Update the RecyclerView
-                    notifyItemRemoved(commentIndex);
-                } else {
-                    Log.w(TAG, "onChildRemoved:unknown_child:" + commentKey);
-                }
-                // [END_EXCLUDE]
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
-                Comment movedComment = dataSnapshot.getValue(Comment.class);
-                String commentKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(mContext, "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        public CommentAdapter(final Context context, DatabaseReference ref) {
-            mContext = context;
-            mDatabaseReference = ref;
-
-            // Create child event listener
-            // [START child_event_listener_recycler]
-
-            ref.addChildEventListener(childEventListener);
-            // [END child_event_listener_recycler]
-
-            // Store reference to listener so it can be removed on app stop
-            mChildEventListener = childEventListener;
-        }
-
-        @Override
-        public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            View view = inflater.inflate(R.layout.item_comment, parent, false);
-            return new CommentViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CommentViewHolder holder, int position) {
-            Comment comment = mComments.get(position);
-            holder.authorView.setText(comment.author);
-            holder.bodyView.setText(comment.text);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mComments.size();
-        }
-
-        public void cleanupListener() {
-            if (mChildEventListener != null) {
-                mDatabaseReference.removeEventListener(mChildEventListener);
-            }
-        }
 
     }
 

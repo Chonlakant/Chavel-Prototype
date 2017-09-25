@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.database.fragment;
+package com.google.firebase.quickstart.database.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

@@ -1,6 +1,5 @@
-package com.google.firebase.quickstart.database;
+package com.google.firebase.quickstart.database.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
@@ -34,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.adapter.MapAdapter;
 import com.google.firebase.quickstart.database.constants.NetworkConstants;
 import com.google.firebase.quickstart.database.controller.BaseInterface;
@@ -42,12 +41,9 @@ import com.google.maps.android.ui.IconGenerator;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by skyrreasure on 12/5/16.
@@ -72,7 +68,7 @@ public class MapsSwipeActivity extends AppCompatActivity implements
     private List<AddressModel> myDealsList = new ArrayList<AddressModel>();
     private List<Polyline> polylines = new ArrayList<Polyline>();
     private List<LatLng> latLngsList = new ArrayList<LatLng>();
-    private LatLng[] latLngsArray = new LatLng[20];
+    //private LatLng[] latLngsArray = new LatLng[20];
 
     private GoogleMap mMap;
 

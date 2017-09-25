@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 
-import com.google.firebase.quickstart.database.fragment.MapFragment;
+import com.google.firebase.quickstart.database.ui.fragment.MapFragment;
 import com.google.firebase.quickstart.database.models.AddressModel;
 
 import java.util.List;

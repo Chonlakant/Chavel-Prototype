@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.database.fragment;
+package com.google.firebase.quickstart.database.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
