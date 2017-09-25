@@ -220,7 +220,8 @@ public class NewPostActivity extends BaseActivity implements
                             startActivity(new Intent(getApplicationContext(),SignInActivity.class));
                         } else {
                             // Write new post
-                            writeNewPost(userId, user.username, title, body,mLatitude,mLongitude);
+                            long unixTime = System.currentTimeMillis() / 1000L;
+                            writeNewPost(userId, user.username, title, body,mLatitude,mLongitude,unixTime);
                         }
 
                         // Finish this Activity, back to the stream
@@ -252,11 +253,11 @@ public class NewPostActivity extends BaseActivity implements
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String userId, String username, String title, String body,String lat,String lng) {
+    private void writeNewPost(String userId, String username, String title, String body,String lat,String lng,long unixTime) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body,lat,lng);
+        Post post = new Post(userId, username, title, body,lat,lng,unixTime);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();

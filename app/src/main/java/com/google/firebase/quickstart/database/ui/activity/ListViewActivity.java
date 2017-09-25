@@ -42,11 +42,8 @@ public class ListViewActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_lisiting);
 
         mLoadingMoreDataProgress = (ProgressBar) findViewById(R.id.loading_progress);
-
-
         mLoadingMoreDataProgress.getIndeterminateDrawable().setColorFilter(0xff00b1c7, PorterDuff.Mode.MULTIPLY);
         mLoadingMoreDataProgress.setVisibility(View.GONE);
-
 
         mRecyclerView.setHasFixedSize(false);
         mLayoutManager = new LinearLayoutManager(this);

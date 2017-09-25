@@ -74,6 +74,8 @@ public abstract class PostListFragment extends Fragment {
 
     RecyclerView mCommentsRecycler;
 
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

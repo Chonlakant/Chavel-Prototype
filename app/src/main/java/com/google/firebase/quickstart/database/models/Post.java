@@ -10,12 +10,14 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Post {
 
+    public String postId;
     public String uid;
     public String author;
     public String title;
     public String body;
     public String lat;
     public String lng;
+    public long unixTime;
 
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
@@ -24,13 +26,14 @@ public class Post {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Post(String uid, String author, String title, String body,String lat,String lng) {
+    public Post(String uid, String author, String title, String body,String lat,String lng,long unixTime) {
         this.uid = uid;
         this.author = author;
         this.title = title;
         this.body = body;
         this.lat = lat;
         this.lng = lng;
+        this.unixTime = unixTime;
     }
 
     // [START post_to_map]
@@ -45,8 +48,21 @@ public class Post {
         result.put("stars", stars);
         result.put("lat", lat);
         result.put("lng", lng);
+        result.put("unixTime",unixTime);
+        result.put("postId",lastFour(unixTime+""));
 
         return result;
+    }
+
+    private String lastFour(String word) {
+        if (word.length() == 3) {
+            return word;
+        } else if (word.length() > 3) {
+            return word.substring(word.length() - 3);
+        } else {
+            // whatever is appropriate in this case
+            throw new IllegalArgumentException("word has less than 3 characters!");
+        }
     }
     // [END post_to_map]
 

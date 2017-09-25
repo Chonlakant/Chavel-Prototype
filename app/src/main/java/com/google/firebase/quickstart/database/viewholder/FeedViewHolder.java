@@ -31,14 +31,19 @@ public class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TextView header_sub_title;
     public TextView star_count;
 
+    public TextView username;
+    public TextView header_meta_title;
+
     private Context context;
     private String postKey;
 
     public FeedViewHolder(View itemView) {
         super(itemView);
         header_title = (TextView) itemView.findViewById(R.id.header_title);
-        header_sub_title = (TextView) itemView.findViewById(R.id.header_subtitle);
+        header_meta_title = (TextView) itemView.findViewById(R.id.header_meta_title);
         header_photo = (ImageView) itemView.findViewById(R.id.header_photo);
+
+        header_sub_title = (TextView) itemView.findViewById(R.id.header_subtitle);
 
         img_share = (ImageView) itemView.findViewById(R.id.img_share);
         img_comments = (ImageView) itemView.findViewById(R.id.img_comment);
@@ -48,6 +53,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         btn_expand_toggle = (ImageView) itemView.findViewById(R.id.btn_expand_toggle);
         star_count = (TextView) itemView.findViewById(R.id.star_count);
 
+        username = (TextView) itemView.findViewById(R.id.username);
 
     }
 
@@ -55,9 +61,14 @@ public class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.context = context;
         this.postKey = postKey;
 
+        String unixTimeStr = post.unixTime + "";
+
         header_title.setText(post.title);
+        header_meta_title.setText("TH:"+post.postId);
         header_sub_title.setText(post.body);
         star_count.setText(String.valueOf(post.starCount));
+        username.setText(post.author);
+       // header_meta_title.setText(post.lat + "," + post.lng);
 
         img_share.setOnClickListener(this);
         img_comments.setOnClickListener(this);
@@ -66,6 +77,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         header_photo.setOnClickListener(this);
         header_title.setOnClickListener(this);
     }
+
+
 
     @Override
     public void onClick(View v) {
