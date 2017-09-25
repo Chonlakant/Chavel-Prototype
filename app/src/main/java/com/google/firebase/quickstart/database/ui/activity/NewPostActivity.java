@@ -141,14 +141,7 @@ public class NewPostActivity extends BaseActivity implements
                         return true;
                     }
                 }
-                if (event.getRawX() <= (mAutocompleteView.getCompoundDrawables()[DRAWABLE_LEFT].getBounds().width())) {
-
-                    Intent i = new Intent(NewPostActivity.this, MainActivity.class);
-                    startActivity(i);
-
-                    finish();
-                    return true;
-                }
+//g
                 return false;
             }
         });
