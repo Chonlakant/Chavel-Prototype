@@ -20,9 +20,14 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.quickstart.database.R;
+import com.google.firebase.quickstart.database.chavel.Assymetric.AsymmetricRecyclerView;
+import com.google.firebase.quickstart.database.chavel.Assymetric.AsymmetricRecyclerViewAdapter;
+import com.google.firebase.quickstart.database.models.Pin;
 import com.google.firebase.quickstart.database.models.Post;
 import com.google.firebase.quickstart.database.ui.activity.PostCommentsActivity;
 import com.google.firebase.quickstart.database.ui.activity.PostDetailActivity;
+import com.google.firebase.quickstart.database.ui.activity.PostPinsActivity;
+import com.google.firebase.quickstart.database.ui.adapter.ChildAdapter;
 import com.google.firebase.quickstart.database.viewholder.FeedViewHolder;
 
 public abstract class PostListFragment extends Fragment {
@@ -35,6 +40,7 @@ public abstract class PostListFragment extends Fragment {
     private DatabaseReference mDatabase;
     private DatabaseReference mPostReference;
     private DatabaseReference mCommentsReference;
+    private DatabaseReference mPinReference;
     // [END define_database_reference]
 
     private FirebaseRecyclerAdapter<Post, FeedViewHolder> mAdapter;
@@ -44,6 +50,7 @@ public abstract class PostListFragment extends Fragment {
     public PostListFragment() {}
 
     PostCommentsActivity.CommentAdapter mCommentAdapter;
+
 
     @Override
     public void onStart() {
@@ -72,9 +79,15 @@ public abstract class PostListFragment extends Fragment {
         return rootView;
     }
 
-    RecyclerView mCommentsRecycler;
+    private RecyclerView mCommentsRecycler;
+    private AsymmetricRecyclerView recyclerView;
 
+    ChildAdapter mPinAdapter;
 
+    public String Image1 = "https://wellcome.ac.uk/sites/default/files/styles/news_lead/public/G3520217_SPL_LeanGenes_200606_600x600.jpg?itok=3G_cT3lu";
+    public String Image2 = "http://rs1054.pbsrc.com/albums/s499/vadimzbanok/1327.jpg~c200";
+    public String Image3 = "http://www.pnas.org/site/misc/images/15-02545.500.jpg";
+    public String Image4 = "https://s-media-cache-ak0.pinimg.com/736x/7f/47/e4/7f47e4e3f9f3755fcd6012dfe6a7dc12.jpg";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -145,7 +158,20 @@ public abstract class PostListFragment extends Fragment {
                 mCommentsRecycler.setAdapter(mCommentAdapter);
                 mCommentAdapter.notifyDataSetChanged();
 
-//                mCommentsRecycler.setOnClickListener(new View.OnClickListener() {
+                recyclerView = viewHolder.recyclerView;
+
+                model.pins.add(new Pin(Image1));
+                model.pins.add(new Pin(Image2));
+                model.pins.add(new Pin(Image3));
+                model.pins.add(new Pin(Image4));
+
+                mPinAdapter = new ChildAdapter(getContext(),model.pins,4,4);
+                recyclerView.setAdapter(new AsymmetricRecyclerViewAdapter<>(getContext(),recyclerView, mPinAdapter));
+
+
+
+
+                //                mCommentsRecycler.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View view) {
 //                        Intent intent = new Intent(getActivity(), PostCommentsActivity.class);

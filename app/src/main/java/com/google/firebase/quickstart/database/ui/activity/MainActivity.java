@@ -28,6 +28,7 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.quickstart.database.R;
+import com.google.firebase.quickstart.database.chavel.activity.NewRouteActivity;
 import com.google.firebase.quickstart.database.ui.fragment.MyPostsFragment;
 import com.google.firebase.quickstart.database.ui.fragment.MyTopPostsFragment;
 import com.google.firebase.quickstart.database.ui.fragment.RecentPostsFragment;
@@ -101,7 +102,12 @@ public class  MainActivity extends BaseActivity {
         } else if(i == R.id.action_maps){
             startActivity(new Intent(this, MapsSwipeActivity.class));
             return true;
-        } else {
+        } else if(i == R.id.action_new_route){
+            startActivity(new Intent(this, NewRouteActivity.class));
+            return true;
+        }
+
+        else {
             return super.onOptionsItemSelected(item);
         }
     }

@@ -9,6 +9,12 @@
     <color name="icons">#212121</color>
     <color name="divider">#B6B6B6</color>
 
+    <color name="grey_dark">#262626</color>
+    <color name="grey_hard">#96989A</color>
+    <color name="grey_medium">#BDBFC1</color>
+    <color name="grey_soft">#F5F5F5</color>
+    <color name="grey_bg">#E6E6E6</color>
+
     <!--<color name="colorPrimary">#00b1c7</color>-->
     <!--<color name="colorPrimaryDark">#0097a9</color>-->
     <!--<color name="colorAccent">#00b1c7</color>-->

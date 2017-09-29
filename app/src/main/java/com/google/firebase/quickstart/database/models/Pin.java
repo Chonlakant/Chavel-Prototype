@@ -5,14 +5,13 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 // [START post_class]
 @IgnoreExtraProperties
-public class Post {
+public class Pin extends ItemPosition {
 
-    public String postId;
+    public String pinId;
     public String uid;
     public String author;
     public String title;
@@ -20,17 +19,20 @@ public class Post {
     public String lat;
     public String lng;
     public long unixTime;
-
-    public List<Pin> pins = new ArrayList<>();
+    public String pinImage;
 
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 
-    public Post() {
+    public Pin() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Post(List<Pin> pins,String uid, String author, String title, String body,String lat,String lng,long unixTime) {
+    public Pin(String pinImage) {
+        this.pinImage = pinImage;
+    }
+
+    public Pin(String pinImage, String uid, String author, String title, String body, String lat, String lng, long unixTime) {
         this.uid = uid;
         this.author = author;
         this.title = title;
@@ -38,7 +40,7 @@ public class Post {
         this.lat = lat;
         this.lng = lng;
         this.unixTime = unixTime;
-        this.pins = pins;
+        this.pinImage = pinImage;
     }
 
     // [START post_to_map]
@@ -55,7 +57,7 @@ public class Post {
         result.put("lng", lng);
         result.put("unixTime",unixTime);
         result.put("postId",lastFour(unixTime+""));
-        result.put("pinImages",pins);
+        result.put("pinImage",pinImage);
 
         return result;
     }

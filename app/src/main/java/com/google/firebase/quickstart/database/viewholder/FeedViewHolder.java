@@ -4,14 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.quickstart.database.chavel.Assymetric.AsymmetricRecyclerView;
+import com.google.firebase.quickstart.database.chavel.Assymetric.AsymmetricRecyclerViewAdapter;
 import com.google.firebase.quickstart.database.ui.activity.PostCommentsActivity;
 import com.google.firebase.quickstart.database.ui.activity.PostDetailActivity;
 import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.models.Post;
+
+import com.google.firebase.quickstart.database.ui.adapter.ChildAdapter;
 
 /**
  * Created by korrio on 9/21/2017 AD.
@@ -37,6 +42,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     private Context context;
     private String postKey;
 
+    public AsymmetricRecyclerView recyclerView;
+
     public FeedViewHolder(View itemView) {
         super(itemView);
         header_title = (TextView) itemView.findViewById(R.id.header_title);
@@ -54,6 +61,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         star_count = (TextView) itemView.findViewById(R.id.star_count);
 
         username = (TextView) itemView.findViewById(R.id.username);
+
+        recyclerView = (AsymmetricRecyclerView) itemView.findViewById(R.id.recycler_pin_images);
 
     }
 
@@ -76,8 +85,9 @@ public class FeedViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
         header_photo.setOnClickListener(this);
         header_title.setOnClickListener(this);
-    }
 
+
+    }
 
 
     @Override

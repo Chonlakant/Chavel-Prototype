@@ -55,6 +55,16 @@
         </activity>
 
 
+        <!--chavel stuff-->
+
+        <activity android:name=".chavel.activity.NewRouteActivity" >
+
+        </activity>
+
+        <activity android:name=".chavel.activity.HolderActivity" >
+
+        </activity>
+
 
     </application>
 

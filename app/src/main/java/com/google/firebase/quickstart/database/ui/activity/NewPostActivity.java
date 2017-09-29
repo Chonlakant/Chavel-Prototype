@@ -35,10 +35,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.adapter.PlaceAutocompleteAdapter;
+import com.google.firebase.quickstart.database.models.Pin;
 import com.google.firebase.quickstart.database.models.Post;
 import com.google.firebase.quickstart.database.models.User;
 import com.google.firebase.quickstart.database.util.PermissionUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -245,12 +247,25 @@ public class NewPostActivity extends BaseActivity implements
         }
     }
 
+    public String Image1 = "https://wellcome.ac.uk/sites/default/files/styles/news_lead/public/G3520217_SPL_LeanGenes_200606_600x600.jpg?itok=3G_cT3lu";
+    public String Image2 = "http://rs1054.pbsrc.com/albums/s499/vadimzbanok/1327.jpg~c200";
+    public String Image3 = "http://www.pnas.org/site/misc/images/15-02545.500.jpg";
+    public String Image4 = "https://s-media-cache-ak0.pinimg.com/736x/7f/47/e4/7f47e4e3f9f3755fcd6012dfe6a7dc12.jpg";
+
     // [START write_fan_out]
     private void writeNewPost(String userId, String username, String title, String body,String lat,String lng,long unixTime) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body,lat,lng,unixTime);
+
+        ArrayList<Pin> pinImages = new ArrayList<>();
+
+        pinImages.add(new Pin(Image1));
+        pinImages.add(new Pin(Image2));
+        pinImages.add(new Pin(Image3));
+        pinImages.add(new Pin(Image4));
+
+        Post post = new Post(pinImages,userId, username, title, body,lat,lng,unixTime);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
