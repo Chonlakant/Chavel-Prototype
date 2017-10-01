@@ -39,14 +39,6 @@
                 android:textSize="12sp"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text dummy qwer asdf zxcv"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:layout_marginTop="5dp"/>
-
         </LinearLayout>
 
         <TextView
