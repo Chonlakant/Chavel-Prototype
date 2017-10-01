@@ -32,9 +32,8 @@ import com.google.firebase.quickstart.database.chavel.activity.NewRouteActivity;
 import com.google.firebase.quickstart.database.ui.fragment.MyPostsFragment;
 import com.google.firebase.quickstart.database.ui.fragment.MyTopPostsFragment;
 import com.google.firebase.quickstart.database.ui.fragment.RecentPostsFragment;
-import com.google.firebase.quickstart.database.ui.upload.NewPinnerActivity;
 import com.google.firebase.quickstart.database.ui.upload2.UploadActivity;
-import com.google.firebase.quickstart.database.ui.viewpins.timeline.BottomSheetWithMapAndPinActivity;
+import com.google.firebase.quickstart.database.ui.viewpins.BottomSheetWithMapAndPinActivity;
 
 public class  MainActivity extends BaseActivity {
 

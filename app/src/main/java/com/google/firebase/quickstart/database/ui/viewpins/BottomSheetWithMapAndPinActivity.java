@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.database.ui.viewpins.timeline;
+package com.google.firebase.quickstart.database.ui.viewpins;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,12 +11,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.quickstart.database.R;
 import com.google.firebase.quickstart.database.ui.viewpins.lib.BottomSheetBehaviorGoogleMapsLike;
 import com.google.firebase.quickstart.database.ui.viewpins.lib.MergedAppBarLayoutBehavior;
+import com.google.firebase.quickstart.database.ui.viewpins.timeline.ItemPagerAdapter;
+import com.google.firebase.quickstart.database.ui.viewpins.timeline.OrderStatus;
+import com.google.firebase.quickstart.database.ui.viewpins.timeline.Orientation;
+import com.google.firebase.quickstart.database.ui.viewpins.timeline.TimeLineAdapter;
+import com.google.firebase.quickstart.database.ui.viewpins.timeline.TimeLineModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +48,8 @@ public class BottomSheetWithMapAndPinActivity extends AppCompatActivity {
     private Orientation mOrientation;
     private boolean mWithLinePadding;
 
+    Toolbar scroll_toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +64,38 @@ public class BottomSheetWithMapAndPinActivity extends AppCompatActivity {
 
         initView();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        scroll_toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(scroll_toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(" ");
+            actionBar.setTitle("A");
         }
+
+        scroll_toolbar.setTitle( "B" );
+        scroll_toolbar.inflateMenu( R.menu.scroll );
+        scroll_toolbar.setOnMenuItemClickListener( new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick( MenuItem item ) {
+                if ( item.getItemId() == R.id.action_search ) {
+                    Toast.makeText( getApplicationContext(), "Clicked search", Toast.LENGTH_LONG ).show();
+//                    mApi.setBottomSheetState( BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT );
+//                    scroll_toolbar.postDelayed( new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mApi.setBottomSheetState( BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED );
+//                        }
+//                    }, 50 );
+                    return true;
+                }
+                else
+                if ( item.getItemId() == R.id.action_info ) {
+                    Toast.makeText( getApplicationContext(), "Clicked info", Toast.LENGTH_LONG ).show();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         /**
          * If we want to listen for states callback

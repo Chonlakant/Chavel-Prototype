@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.viewpins.timeline.BottomSheetWithMapAndPinActivity">
+    tools:context=".ui.viewpins.BottomSheetWithMapAndPinActivity">
 
     <FrameLayout
         android:id="@+id/dummy_framelayout_replacing_map"

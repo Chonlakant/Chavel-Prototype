@@ -45,4 +45,9 @@
 
     <string name="key_binding_default_toolbar_name">aaa</string>
 
+    <string name="menu_search_hint">Search</string>
+    <string name="menu_edit_hint">Edit</string>
+    <string name="menu_delete_hint">Delete</string>
+    <string name="menu_info_hint">Info</string>
+
 </resources>
