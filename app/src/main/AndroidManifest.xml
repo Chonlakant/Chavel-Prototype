@@ -82,7 +82,8 @@
 
         </activity>
 
-        <activity android:name=".ui.viewpins.timeline.BottomSheetWithMapAndPinActivity" >
+        <activity android:name=".ui.viewpins.timeline.BottomSheetWithMapAndPinActivity"
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
 
