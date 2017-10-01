@@ -318,7 +318,7 @@ public class PostDetailActivity extends BaseActivity implements OnMapReadyCallba
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
+                // Get UploadPost object and use the values to update the UI
                 Post post = dataSnapshot.getValue(Post.class);
                 // [START_EXCLUDE]
                 mAuthorView.setText(post.author);
@@ -329,7 +329,7 @@ public class PostDetailActivity extends BaseActivity implements OnMapReadyCallba
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
+                // Getting UploadPost failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
                 Toast.makeText(PostDetailActivity.this, "Failed to load post.",

@@ -51,7 +51,7 @@ public class NewPostActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
-    private static final String TAG = "NewPostActivity";
+    private static final String TAG = "NewPinnerActivity";
     private static final String REQUIRED = "Required";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final LatLngBounds BOUNDS_GREATER_INDIA = new LatLngBounds(
@@ -307,7 +307,6 @@ public class NewPostActivity extends BaseActivity implements
 
             final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
-
 
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);

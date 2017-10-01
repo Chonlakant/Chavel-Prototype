@@ -26,7 +26,6 @@ import com.google.firebase.quickstart.database.models.Pin;
 import com.google.firebase.quickstart.database.models.Post;
 import com.google.firebase.quickstart.database.ui.activity.PostCommentsActivity;
 import com.google.firebase.quickstart.database.ui.activity.PostDetailActivity;
-import com.google.firebase.quickstart.database.ui.activity.PostPinsActivity;
 import com.google.firebase.quickstart.database.ui.adapter.ChildAdapter;
 import com.google.firebase.quickstart.database.viewholder.FeedViewHolder;
 
@@ -126,7 +125,7 @@ public abstract class PostListFragment extends Fragment {
 //                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
 //                }
 
-                // Bind Post to ViewHolder, setting OnClickListener for the star button
+                // Bind UploadPost to ViewHolder, setting OnClickListener for the star button
                 viewHolder.bindToPost(mPostKey,getContext(),model, new View.OnClickListener() {
                     @Override
                     public void onClick(View starView) {

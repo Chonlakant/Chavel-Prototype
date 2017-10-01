@@ -32,10 +32,13 @@ import com.google.firebase.quickstart.database.chavel.activity.NewRouteActivity;
 import com.google.firebase.quickstart.database.ui.fragment.MyPostsFragment;
 import com.google.firebase.quickstart.database.ui.fragment.MyTopPostsFragment;
 import com.google.firebase.quickstart.database.ui.fragment.RecentPostsFragment;
+import com.google.firebase.quickstart.database.ui.upload.NewPinnerActivity;
+import com.google.firebase.quickstart.database.ui.upload2.UploadActivity;
+import com.google.firebase.quickstart.database.ui.viewpins.timeline.BottomSheetWithMapAndPinActivity;
 
 public class  MainActivity extends BaseActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "BottomSheetWithMapAndPinActivity";
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -76,7 +79,7 @@ public class  MainActivity extends BaseActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        // Button launches NewPostActivity
+        // Button launches NewPinnerActivity
         findViewById(R.id.fab_new_post).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +107,12 @@ public class  MainActivity extends BaseActivity {
             return true;
         } else if(i == R.id.action_new_route){
             startActivity(new Intent(this, NewRouteActivity.class));
+            return true;
+        } else if(i == R.id.action_new_pinner){
+            startActivity(new Intent(this, UploadActivity.class));
+            return true;
+        }else if(i == R.id.action_view_pins){
+            startActivity(new Intent(this, BottomSheetWithMapAndPinActivity.class));
             return true;
         }
 

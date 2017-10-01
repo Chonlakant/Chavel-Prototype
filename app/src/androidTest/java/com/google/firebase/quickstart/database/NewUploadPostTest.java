@@ -29,7 +29,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class NewPostTest {
+public class NewUploadPostTest {
 
     @Rule
     public ActivityTestRule<SignInActivity> mActivityTestRule = new ActivityTestRule<>(SignInActivity.class);

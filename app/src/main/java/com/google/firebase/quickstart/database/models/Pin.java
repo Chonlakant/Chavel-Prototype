@@ -25,7 +25,7 @@ public class Pin extends ItemPosition {
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Pin() {
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+        // Default constructor required for calls to DataSnapshot.getValue(UploadPost.class)
     }
 
     public Pin(String pinImage) {

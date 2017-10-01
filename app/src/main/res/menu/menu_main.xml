@@ -10,6 +10,18 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_new_pinner"
+        android:title="New Pinner"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_view_pins"
+        android:title="View Pin"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_maps"
         android:title="MapsSwipeActivity"
         android:visible="true"

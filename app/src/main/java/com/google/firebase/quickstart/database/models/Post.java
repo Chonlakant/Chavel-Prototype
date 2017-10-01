@@ -27,7 +27,7 @@ public class Post {
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Post() {
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+        // Default constructor required for calls to DataSnapshot.getValue(UploadPost.class)
     }
 
     public Post(List<Pin> pins,String uid, String author, String title, String body,String lat,String lng,long unixTime) {

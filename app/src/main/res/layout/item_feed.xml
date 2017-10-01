@@ -257,7 +257,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/comment_form"
                     tools:listitem="@layout/item_comment"
-                    android:visibility="gone"
                     />
 
                 <LinearLayout

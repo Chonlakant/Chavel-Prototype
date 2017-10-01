@@ -90,7 +90,7 @@ public class BaseNetwork {
     }
 
     /**
-     * For Post Method with parameters in the content body
+     * For UploadPost Method with parameters in the content body
      *
      * @param methodType   Type of network call eg, GET,POST, etc.
      * @param url          The url to hit
@@ -142,7 +142,7 @@ public class BaseNetwork {
     }
 
     /**
-     * For Post Method with parameters as form data
+     * For UploadPost Method with parameters as form data
      *
      * @param methodType
      * @param url

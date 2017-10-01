@@ -27,5 +27,22 @@
     <string name="permission_required_toast">Location permission is required for this demo.</string>
     <string name="title_activity_test">Map</string>
 
+    <string name="progress_downloading">Downloading…</string>
+    <string name="progress_uploading">Uploading…</string>
+    <string name="progress_auth">Signing In…</string>
+
+    <string name="upload_success">Upload finished</string>
+    <string name="upload_failure">Upload failed</string>
+
+    <string name="download_success">Download finished</string>
+    <string name="download_failure">Download failure</string>
+
+    <string name="BackDropBottomSheetBehavior">co.com.parsoniisolutions.custombottomsheetbehavior.lib.BackdropBottomSheetBehavior</string>
+    <string name="BottomSheetBehaviorGoogleMapsLike">co.com.parsoniisolutions.custombottomsheetbehavior.lib.BottomSheetBehaviorGoogleMapsLike</string>
+    <string name="ScrollAwareFABBehavior">co.com.parsoniisolutions.custombottomsheetbehavior.lib.ScrollAwareFABBehavior</string>
+    <string name="MergedAppBarLayoutBehavior">co.com.parsoniisolutions.custombottomsheetbehavior.lib.MergedAppBarLayoutBehavior</string>
+    <string name="ScrollingAppBarLayoutBehavior">co.com.parsoniisolutions.custombottomsheetbehavior.lib.ScrollingAppBarLayoutBehavior</string>
+
+    <string name="key_binding_default_toolbar_name">aaa</string>
 
 </resources>
